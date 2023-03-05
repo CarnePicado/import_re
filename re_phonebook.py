@@ -1,16 +1,16 @@
 import csv, os, re, sys
 
 def read_file(file_path, file_name):
-  with open(os.path.join(file_path, file_name), 'rt', encoding='utf-8') as f:
+  with open(os.path.join(file_path, file_name), encoding='utf-8') as f:
     rows = csv.reader(f, delimiter=",")
     contacts_list = list(rows)
     return contacts_list
 
 
 def format_number(contacts_list):
-  number_pattern = r'(\+7|8)(\s*)(\(*)(\d{3})(\)*)(\s*) \
-  (\-*)(\d{3})(\s*)(\-*)(\d{2})(\s*)(\-*)(\d{2}) \
-  (\s*)(\(*)(доб)*(\.*)(\s*)(\d+)*(\)*)'
+  number_pattern = r'(\+7|8)(\s*)(\(*)(\d{3})(\)*)(\s*)' \
+  r'(\-*)(\d{3})(\s*)(\-*)(\d{2})(\s*)(\-*)(\d{2})' \
+  r'(\s*)(\(*)(доб)*(\.*)(\s*)(\d+)*(\)*)'
   repl = r'+7(\4)\8-\11-\14\15\17\18\19\20'
   new_contacts_list = []
   for contact in contacts_list:
@@ -22,8 +22,8 @@ def format_number(contacts_list):
 
 
 def format_name(contacts_list):
-  name_pattern = r'"^([А-ЯЁа-яё]+)(\s*)(\,?)([А-ЯЁа-яё]+)(\s*) \
-    (\,?)([А-ЯЁа-яё]*)(\,?)(\,?)(\,?)"gm'
+  name_pattern = r'^([А-ЯЁа-яё]+)(\s*)(\,?)([А-ЯЁа-яё]+)(\s*)' \
+    r'(\,?)([А-ЯЁа-яё]*)(\,?)(\,?)(\,?)'
   repl = r'\1\3\10\4\6\9\7\8'
   new_contacts_list = []
   for contact in contacts_list:
